@@ -19,12 +19,12 @@ io.on("connection", socket => {
     socket.join(user.room);
 
     //welcomes current user
-    socket.emit("message", formatMessage(modName, "welcome to ClassCord"));
+    socket.emit("message", formatMessage(modName, `Welcome to ${user.room}, ${user.username}`));
 
     //Broadcast when user connects
     socket.broadcast.to(user.room).emit(
       "message",
-      formatMessage(modName, `${user.username} has joined the chat`)
+      formatMessage(modName, `${user.username} has joined the Class`)
     );
 
     //Send user and room info
@@ -44,7 +44,7 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     const user = userLeave(socket.id);
     if (user) {
-      io.to(user.room).emit("message", formatMessage(modName, `${user.username} has left the chat`));
+      io.to(user.room).emit("message", formatMessage(modName, `${user.username} has left the Class`));
 
       //Send user and room info
     io.to(user.room).emit('roomUsers', {
